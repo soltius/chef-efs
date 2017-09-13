@@ -16,4 +16,5 @@ if respond_to?(:supports)
   supports 'centos'
   supports 'redhat'
   supports 'debian'
+  supports 'amazon'
 end
