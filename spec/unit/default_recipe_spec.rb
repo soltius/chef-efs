@@ -53,6 +53,38 @@ describe 'efs::default' do
     it_behaves_like 'manages existing efs mounts'
   end
 
+  context 'on Amazon' do
+    let(:chef_run) do
+      c = ChefSpec::SoloRunner.new(platform: 'amazon')
+      c.node.normal['efs']['mounts']['/mnt/test']['fsid'] = 'fs-1234abcd'
+      c.node.automatic['ec2']['placement_availability_zone'] = 'us-west-2a'
+      c.converge(described_recipe)
+    end
+
+    it 'installs nfs' do
+      expect(chef_run).to install_package('nfs-utils')
+    end
+
+    it_behaves_like 'mounts efs filesystem'
+    it_behaves_like 'manages existing efs mounts'
+  end
+
+  context 'on Suse' do
+    let(:chef_run) do
+      c = ChefSpec::SoloRunner.new(platform: 'suse')
+      c.node.normal['efs']['mounts']['/mnt/test']['fsid'] = 'fs-1234abcd'
+      c.node.automatic['ec2']['placement_availability_zone'] = 'us-west-2a'
+      c.converge(described_recipe)
+    end
+
+    it 'installs nfs' do
+      expect(chef_run).to install_package('yast2-nfs-common')
+    end
+
+    it_behaves_like 'mounts efs filesystem'
+    it_behaves_like 'manages existing efs mounts'
+  end
+
   context 'uses mount_efs resource' do
     let(:fstab) do
       [
