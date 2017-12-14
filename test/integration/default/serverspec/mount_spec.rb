@@ -3,10 +3,12 @@ require 'serverspec'
 set :backend, :exec
 
 case os[:family]
-when 'redhat'
+when 'redhat', 'oracle', 'amazon'
   package = 'nfs-utils'
 when 'ubuntu', 'debian'
   package = 'nfs-common'
+when 'suse'
+  package = 'yast2-nfs-common'
 end
 
 describe package(package) do
