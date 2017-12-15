@@ -78,7 +78,7 @@ describe 'efs::default' do
     end
 
     it 'installs nfs' do
-      expect(chef_run).to install_package('yast2-nfs-common')
+      expect(chef_run).to install_package('nfs-utils')
     end
 
     it_behaves_like 'mounts efs filesystem'

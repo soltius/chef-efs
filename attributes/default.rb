@@ -9,8 +9,6 @@ default['efs']['remove_unspecified_mounts'] = false
 default['efs']['nfs-package'] = case node['platform']
                                 when 'ubuntu', 'debian'
                                   'nfs-common'
-                                when 'redhat', 'amazon', 'oracle'
+                                when 'redhat', 'amazon', 'oracle', 'suse'
                                   'nfs-utils'
-                                when 'suse'
-                                  'yast2-nfs-common'
                                 end
